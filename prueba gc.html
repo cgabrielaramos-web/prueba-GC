@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GamesCow - Venta de Videojuegos</title>
+  <meta name="description" content="Compra los mejores videojuegos en GamesCow. Calidad, variedad y buen precio." />
+  <link rel="canonical" href="https://yourdomain.com/index.html" />
+  
+  <!-- Iconos de FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- JSON-LD para Empresa y Oferta -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization", 
+    "name": "GamesCow",
+    "telephone": "+525531239907",
+    "url": "https://yourdomain.com",
+    "logo": "https://placehold.co/60x60/333/fff?text=GC",
+    "areaServed": "MX",
+    "description": "Tienda en línea de venta de videojuegos y accesorios.",
+    "sameAs": [
+      "https://facebook.com/GamesCow",
+      "https://twitter.com/GamesCow"
+    ]
+  }
+  </script>
+
+  <style>
+    /* ------------------------------------- */
+    /* 1. Base and Utility Styles */
+    /* ------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a; /* Dark background for gaming theme */
+      color: #e0e0e0;
+    }
+
+    /* General containers and wrappers */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    /* ------------------------------------- */
+    /* 2. Header and Navigation */
+    /* ------------------------------------- */
+    header {
+      background-color: #0d0d0d;
+      color: #fff;
+      padding: 1rem 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #ffcc00; /* Gold/Yellow accent */
+    }
+
+    nav {
+      margin-top: 1rem;
+    }
+
+    nav button {
+      background: #333;
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      margin: 0 0.5rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s, transform 0.1s;
+      font-weight: bold;
+    }
+
+    nav button:hover,
+    nav button.active {
+      background-color: #ffcc00;
+      color: #1a1a1a;
+      transform: translateY(-2px);
+    }
+
+    /* ------------------------------------- */
+    /* 3. Filtering and Sorting (Filters Bar) */
+    /* ------------------------------------- */
+    .filters {
+      background-color: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .filters label, .filters select {
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .filters select {
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #555;
+        background-color: #3a3a3a;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    /* ------------------------------------- */
+    /* 4. Product Grid (Propiedades) */
+    /* ------------------------------------- */
+    #propiedades {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .propiedad {
+      background: #2a2a2a;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .propiedad:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+    }
+
+    .propiedad img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 3px solid #ffcc00;
+    }
+    
+    .propiedad-content {
+        padding: 1rem;
+    }
+
+    .propiedad h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+
+    .propiedad p {
+      margin: 0.5rem 0;
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+
+    .platform {
+        display: inline-block;
+        background-color: #ffcc00;
+        color: #1a1a1a;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .price {
+      font-size: 1.8rem;
+      color: #4CAF50; /* Green for price */
+      font-weight: bold;
+      margin: 0.75rem 0 0.5rem;
+      display: block;
+    }
+    
+    /* NEW STYLES FOR LLM FEATURE */
+    .flex-container {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .buy-btn, .llm-btn {
+        flex: 1;
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        text-align: center;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s, opacity 0.3s;
+    }
+
+    .buy-btn {
+      background-color: #007bff;
+      color: #fff;
+      flex: 0 0 50%; /* Make buy button slightly larger */
+    }
+
+    .buy-btn:hover {
+      background-color: #0056b3;
+    }
+    
+    .llm-btn {
+        background-color: #ff5722; /* Orange for Gemini feature */
+        color: #fff;
+        flex: 0 0 50%;
+    }
+
+    .llm-btn:hover:not(:disabled) {
+        background-color: #e64a19;
+    }
+
+    .llm-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #ffcc00;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* ------------------------------------- */
+    /* 5. Contact Form */
+    /* ------------------------------------- */
+    #contact-form-section {
+        display: none; /* Hidden by default */
+    }
+
+    #contact-form {
+      background: #2a2a2a;
+      padding: 2rem;
+      border-radius: 12px;
+      margin: 2rem auto;
+      max-width: 600px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    }
+
+    #contact-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #ffcc00;
+    }
+
+    #contact-form input,
+    #contact-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background-color: #3a3a3a;
+      color: #fff;
+    }
+    
+    #contact-form textarea {
+        resize: vertical;
+    }
+
+    #contact-form button {
+      background-color: #ffcc00;
+      color: #1a1a1a;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.1s;
+    }
+
+    #contact-form button:hover {
+      background-color: #e6b800;
+      transform: translateY(-1px);
+    }
+    
+    /* ------------------------------------- */
+    /* 6. Footer and Utility Messages */
+    /* ------------------------------------- */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 3rem;
+      background-color: #0d0d0d;
+      color: #888;
+      font-size: 0.9rem;
+    }
+    
+    .message-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #1a1a1a;
+        color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
+        z-index: 1000;
+        text-align: center;
+        max-width: 90%;
+        width: 400px;
+        display: none;
+        border: 2px solid #ffcc00;
+    }
+    
+    .message-box button {
+        margin-top: 15px;
+        background-color: #ffcc00;
+        color: #1a1a1a;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .message-box h4 {
+        margin: 10px 0 5px 0;
+        color: #ff5722;
+        font-size: 0.9rem;
+        border-top: 1px solid #3a3a3a;
+        padding-top: 10px;
+    }
+    
+    .message-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+        font-size: 0.75rem;
+        color: #999;
+    }
+    .message-box ul li {
+        margin-bottom: 3px;
+    }
+    .message-box ul li a {
+        color: #ffcc00;
+        text-decoration: none;
+        word-break: break-word;
+        display: block;
+    }
+
+    /* ------------------------------------- */
+    /* 7. Media Queries for Responsiveness */
+    /* ------------------------------------- */
+    @media (max-width: 768px) {
+        header h1 {
+            font-size: 2rem;
+        }
+        nav button {
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+        }
+        .filters {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .filters > div {
+            width: 100%;
+        }
+        .buy-btn, .llm-btn {
+            flex: 1 1 100%; /* Full width on mobile for better tapping */
+        }
+        .flex-container {
+            flex-direction: column;
+        }
+        .message-box {
+            width: 95%;
+        }
+    }
+
+  </style>
+</head>
+<body>
+  
+  <header>
+    <h1>GamesCow <i class="fas fa-gamepad"></i></h1>
+    <p>¡Tu tienda definitiva de videojuegos!</p>
+    <nav>
+      <button id="nav-home" class="active" onclick="showSection('propiedades-section')"><i class="fas fa-home"></i> Inicio</button>
+      <button id="nav-contact" onclick="showSection('contact-form-section')"><i class="fas fa-envelope"></i> Contacto</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    
+    <!-- Sección de Productos (Shop) -->
+    <section id="propiedades-section">
+      <h2 class="text-3xl font-bold mb-4" style="color:#fff;">Nuestros Juegos</h2>
+
+      <!-- Filtros y Orden -->
+      <div class="filters">
+        <div>
+          <label for="filter-platform">Plataforma:</label>
+          <select id="filter-platform" onchange="applyFilters()">
+            <option value="all">Todas</option>
+            <option value="PS5">PlayStation 5</option>
+            <option value="XBS">Xbox Series X|S</option>
+            <option value="PC">PC</option>
+            <option value="SWT">Nintendo Switch</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="sort-by">Ordenar por:</label>
+          <select id="sort-by" onchange="applyFilters()">
+            <option value="name-asc">Nombre (A-Z)</option>
+            <option value="name-desc">Nombre (Z-A)</option>
+            <option value="price-asc">Precio (Menor a Mayor)</option>
+            <option value="price-desc">Precio (Mayor a Menor)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Listado de Juegos -->
+      <div id="propiedades">
+        <!-- Los juegos se renderizarán aquí mediante JavaScript -->
+      </div>
+      
+      <!-- Mensaje de no resultados -->
+      <p id="no-results" style="display:none; text-align:center; color:#ffcc00; font-size:1.2rem;">
+          <i class="fas fa-exclamation-triangle"></i> ¡Lo sentimos! No hay juegos que coincidan con tu filtro.
+      </p>
+
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section id="contact-form-section" style="display: none;">
+      <h2 class="text-3xl font-bold mb-4" style="color:#ffcc00; text-align: center;">Contáctanos</h2>
+      <form id="contact-form">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" required placeholder="Tu nombre completo">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required placeholder="tu.email@ejemplo.com">
+
+        <label for="subject">Asunto:</label>
+        <input type="text" id="subject" name="subject" required placeholder="E.g., Pregunta sobre un pedido">
+
+        <label for="message">Mensaje:</label>
+        <textarea id="message" name="message" rows="5" required placeholder="Escribe tu mensaje aquí..."></textarea>
+
+        <button type="submit"><i class="fas fa-paper-plane"></i> Enviar Mensaje</button>
+      </form>
+    </section>
+    
+  </main>
+  
+  <footer>
+    &copy; 2025 GamesCow. Todos los derechos reservados. | Desarrollado con pasión por los videojuegos.
+  </footer>
+
+  <!-- Custom Message Box for alerts -->
+  <div id="custom-message-box" class="message-box">
+      <div id="message-content"></div>
+      <button onclick="document.getElementById('custom-message-box').style.display='none';">Cerrar</button>
+  </div>
+
+  <script>
+    // --- GEMINI API CONFIGURATION ---
+    const apiKey = ""; // La clave API será provista por el entorno
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    // Mock Data for Video Games
+    const GAMES_DATA = [
+      { id: 1, name: "Aventura Épica 4", platform: "PS5", price: 1299.00, img: "https://placehold.co/400x200/505050/fff?text=PS5+Adventure", description: "El último capítulo de la saga. Gráficos 4K." },
+      { id: 2, name: "Carreras de Futuro", platform: "XBS", price: 999.50, img: "https://placehold.co/400x200/226622/fff?text=XBS+Racer", description: "Velocidad extrema y pistas futuristas." },
+      { id: 3, name: "Simulador de Vida", platform: "PC", price: 599.90, img: "https://placehold.co/400x200/808080/fff?text=PC+Simulator", description: "Construye tu mundo virtual ideal." },
+      { id: 4, name: "Lucha de Monstruos", platform: "SWT", price: 1099.00, img: "https://placehold.co/400x200/AA3333/fff?text=SWT+Monsters", description: "Captura y entrena a más de 100 criaturas." },
+      { id: 5, name: "Estrategia Militar II", platform: "PC", price: 850.00, img: "https://placehold.co/400x200/3333AA/fff?text=PC+Strategy", description: "Lidera a tus tropas a la victoria." },
+      { id: 6, name: "Plataformas Retro", platform: "SWT", price: 750.00, img: "https://placehold.co/400x200/996600/fff?text=SWT+Retro", description: "Clásico estilo 2D con un giro moderno." },
+      { id: 7, name: "RPG Fantástico", platform: "PS5", price: 1399.90, img: "https://placehold.co/400x200/990099/fff?text=PS5+RPG", description: "Un mundo abierto lleno de magia y misterios." },
+      { id: 8, name: "Deportes Extremos", platform: "XBS", price: 1050.00, img: "https://placehold.co/400x200/00AAAA/fff?text=XBS+Sports", description: "Domina el skate, snowboard y más." },
+    ];
+    
+    /**
+     * Muestra un mensaje simple en la caja de diálogo.
+     * @param {string} message El mensaje a mostrar.
+     */
+    function displaySimpleMessage(message) {
+        const box = document.getElementById('custom-message-box');
+        // Usar textContent para mensajes simples
+        document.getElementById('message-content').textContent = message; 
+        box.style.display = 'block';
+    }
+    
+    /**
+     * Muestra contenido HTML complejo (como el análisis del LLM con citas) en la caja de diálogo.
+     * @param {string} htmlContent El contenido HTML a mostrar.
+     */
+    function displayHtmlMessage(htmlContent) {
+        const box = document.getElementById('custom-message-box');
+        // Usar innerHTML para contenido HTML
+        document.getElementById('message-content').innerHTML = htmlContent;
+        box.style.display = 'block';
+    }
+    
+    /**
+     * Llama al API de Gemini para obtener un análisis de juego, usando Google Search para grounding.
+     * @param {string} gameName El nombre del juego para analizar.
+     */
+    async function getGameAnalysis(gameName) {
+        const llmButton = document.querySelector(`[onclick="getGameAnalysis('${gameName}')"]`);
+        const originalContent = llmButton.innerHTML;
+        
+        // 1. UI Setup: Show loading and disable buttons
+        llmButton.disabled = true;
+        llmButton.innerHTML = `<span class="loading-spinner"></span> Analizando...`;
+
+        // Instrucción del sistema para definir la personalidad del crítico
+        const systemPrompt = `Actúa como un crítico de videojuegos experto y entusiasta. Tu tarea es proporcionar un análisis rápido y conciso (máximo 50 palabras, en una sola oración) del videojuego que se te pida. La respuesta debe ser solo el análisis en español, con un tono emocionante y atractivo.`;
+
+        // Consulta del usuario para el LLM, forzando la búsqueda
+        const userQuery = `Proporciona un veredicto de 50 palabras o menos para el juego llamado "${gameName}".`;
+
+        const payload = {
+            contents: [{ parts: [{ text: userQuery }] }],
+            // Habilitar Google Search para grounding
+            tools: [{ "google_search": {} }],
+            systemInstruction: {
+                parts: [{ text: systemPrompt }]
+            },
+        };
+        
+        let analysisResult = "No se pudo generar el análisis en este momento. Inténtalo de nuevo más tarde.";
+        let sources = [];
+        const maxRetries = 3;
+
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error en la API: ${response.status}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    analysisResult = candidate.content.parts[0].text;
+                    
+                    // Extraer fuentes de grounding (citas)
+                    const groundingMetadata = candidate.groundingMetadata;
+                    if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                        sources = groundingMetadata.groundingAttributions
+                            .map(attribution => ({
+                                uri: attribution.web?.uri,
+                                title: attribution.web?.title,
+                            }))
+                            .filter(source => source.uri && source.title);
+                    }
+                    break; // Éxito, salir del ciclo de reintento
+
+                } else {
+                    throw new Error("Estructura de respuesta no válida.");
+                }
+
+            } catch (error) {
+                console.error(`Intento ${attempt + 1} fallido:`, error);
+                if (attempt < maxRetries - 1) {
+                    const delay = Math.pow(2, attempt) * 1000; // Backoff: 1s, 2s, 4s
+                    await wait(delay);
+                } else {
+                    // Último intento fallido
+                    break;
+                }
+            }
+        }
+
+        // 2. UI Reset and Display Result
+        llmButton.disabled = false;
+        llmButton.innerHTML = originalContent;
+
+        // Preparar el HTML para las citas
+        let sourceHtml = '';
+        if (sources.length > 0) {
+            sourceHtml = `<h4>Fuentes de información:</h4><ul>${sources.map(s => 
+                `<li><a href="${s.uri}" target="_blank">${s.title}</a></li>`
+            ).join('')}</ul>`;
+        }
+
+        const finalMessage = `
+            <h3 style="color:#ffcc00; margin-bottom: 1rem;">Análisis Rápido de ${gameName} <i class="fas fa-magic"></i></h3>
+            <p style="font-style: italic; color: #fff; text-align: justify; margin-bottom: 15px;">"${analysisResult}"</p>
+            ${sourceHtml}
+        `;
+        
+        displayHtmlMessage(finalMessage);
+    }
+
+
+    /**
+     * Renders a single game card HTML structure.
+     * @param {object} game The game object.
+     * @returns {string} The HTML string for the game card.
+     */
+    function renderGameCard(game) {
+      return `
+        <div class="propiedad">
+          <img src="${game.img}" alt="Portada de ${game.name}" onerror="this.onerror=null; this.src='https://placehold.co/400x200/444/ccc?text=GamesCow'">
+          <div class="propiedad-content">
+            <h3>${game.name}</h3>
+            <span class="platform"><i class="fas fa-desktop"></i> ${game.platform}</span>
+            <p>${game.description}</p>
+            <span class="price">$${game.price.toFixed(2)} MXN</span>
+            <div class="flex-container">
+                <button class="buy-btn" onclick="displaySimpleMessage('¡Has agregado ${game.name} al carrito!')">
+                    <i class="fas fa-shopping-cart"></i> Comprar
+                </button>
+                <button class="llm-btn" onclick="getGameAnalysis('${game.name}')">
+                    Análisis Rápido ✨
+                </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    /**
+     * Renders the list of games to the #propiedades container.
+     * @param {Array} games The list of filtered/sorted games.
+     */
+    function renderGameList(games) {
+        const container = document.getElementById('propiedades');
+        const noResults = document.getElementById('no-results');
+        
+        container.innerHTML = games.map(renderGameCard).join('');
+        
+        if (games.length === 0) {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    }
+
+    /**
+     * Applies the current filter and sort selections to the game list.
+     */
+    function applyFilters() {
+        const platformFilter = document.getElementById('filter-platform').value;
+        const sortBy = document.getElementById('sort-by').value;
+        
+        let filteredGames = GAMES_DATA;
+
+        // 1. Filter by Platform
+        if (platformFilter !== 'all') {
+            filteredGames = filteredGames.filter(game => game.platform === platformFilter);
+        }
+
+        // 2. Sort
+        filteredGames.sort((a, b) => {
+            switch (sortBy) {
+                case 'name-asc':
+                    return a.name.localeCompare(b.name);
+                case 'name-desc':
+                    return b.name.localeCompare(a.name);
+                case 'price-asc':
+                    return a.price - b.price;
+                case 'price-desc':
+                    return b.price - a.price;
+                default:
+                    return 0; // Should not happen
+            }
+        });
+        
+        renderGameList(filteredGames);
+    }
+
+    /**
+     * Handles navigation between sections.
+     * @param {string} sectionId The ID of the section to show.
+     */
+    function showSection(sectionId) {
+        const sections = ['propiedades-section', 'contact-form-section'];
+        const navButtons = document.querySelectorAll('nav button');
+
+        // Hide all sections
+        sections.forEach(id => {
+            const section = document.getElementById(id);
+            if (section) {
+                section.style.display = 'none';
+            }
+        });
+
+        // Show the selected section
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.style.display = 'block';
+        }
+        
+        // Update active navigation button
+        navButtons.forEach(button => {
+            button.classList.remove('active');
+            if (button.id === `nav-${sectionId.replace('-section', '')}`) {
+                button.classList.add('active');
+            }
+        });
+    }
+    
+    // Initial setup on window load
+    window.onload = function() {
+        // Initial rendering of all games
+        applyFilters(); 
+        
+        // Form submission handler
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Simple validation and success message
+            const name = document.getElementById('name').value;
+            const message = `Gracias, ${name}. Hemos recibido tu mensaje y te contactaremos pronto.`;
+            
+            displaySimpleMessage(message);
+            
+            // Clear the form
+            this.reset();
+        });
+    };
+  </script>
+
+  <!-- Integración del Bot de Botpress (Webchat) -->
+  <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
+  <script src="https://files.bpcontent.cloud/2025/07/20/15/20250720152128-W4DX8AOA.js" defer></script>
+</body>
+</html>
